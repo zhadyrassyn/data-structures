@@ -1,3 +1,6 @@
+/*
+ * BinaryHeap(PriorityHeap) implementation.
+ * */
 public class BinaryHeapDemo {
     public static void main(String[] args) {
         BinaryHeap heap = new BinaryHeap();
@@ -27,9 +30,26 @@ public class BinaryHeapDemo {
 
         heap.changePriority(2, 20);
         heap.print();
+
+        
+        int[] arr = {0, 33, 14, 12, 18, 3, 2, 89};
+        BinaryHeap heap1 = new BinaryHeap(arr);
+        System.out.println("Heap representation");
+        heap1.print();
+
+        System.out.println("SORTED heap");
+        int[] sorted = heap1.sort();
+        for(int i = 1; i < sorted.length; i++) {
+            System.out.print(sorted[i] + " ");
+        }
+
     }
 }
 
+
+/*
+ * array is 1 based
+ * */
 class BinaryHeap {
     private int maxSize;
     private int size;
@@ -40,6 +60,19 @@ class BinaryHeap {
         size = 0;
         arr = new int[maxSize];
     }
+
+    public BinaryHeap(int[] arr) {
+        int n = arr.length;
+        this.arr = arr;
+
+        size = n-1;
+        maxSize = n;
+
+        for(int i = size/2; i >= 1; i--) {
+            siftDown(i);
+        }
+    }
+
 
     public boolean isEmpty() {
         return size == 0;
@@ -87,6 +120,14 @@ class BinaryHeap {
         } else {
             siftDown(i);    
         }
+    }
+
+    public int[] sort() {
+        int[] result = new int[size+1];
+        for(int i = size; i >= 1; i--) {
+            result[i] = getMax();
+        }
+        return result;
     }
 
     public void siftUp(int i) {
